@@ -1,10 +1,26 @@
 <template>
-  <h1>{{ data.length }}</h1>
+  <div>
+    <h1>{{ transactions }}</h1>
+    <TransactionsTable :transactions="giroTransactions" />
+    <TransactionsTable :transactions="creditcardTransactions" />
+  </div>
 </template>
 
 <script>
-  data() {
+export default {
+  name: 'IndexPage',
+  data: () => ({
+    giroTransactions: [],
+    creditcardTransactions: [],
+  }),
+  async fetch() {
+    this.giroTransactions = await fetch(
+      '/api/giro'
+    ).then(res => res.json())
+    this.creditcardTransactions = await fetch(
+      '/api/creditcard'
+    ).then(res => res.json())
+  },
 
-  }
-const { data } = await useFetch('/api/giro/transactions');
+}
 </script>

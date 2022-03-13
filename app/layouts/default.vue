@@ -1,21 +1,14 @@
 <template>
-  <Html>
-    <Head>
-      <Title>
-        HomeHub
-      </Title>
-    </Head>
-    <Body>
-      <Header />
-      <slot/>
-      <Footer />
-    </Body>
-  </Html>
+  <div>
+    <TheHeader />
+    <Nuxt />
+    <TheFooter />
+  </div>
 </template>
 
 <script>
 export default {
-  name: "default.vue"
+  name: "DefaultLayout"
 }
 </script>
 

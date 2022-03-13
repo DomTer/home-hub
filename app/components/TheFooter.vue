@@ -1,12 +1,12 @@
 <template>
-  <header>
-    header
-  </header>
+  <footer>
+    footer
+  </footer>
 </template>
 
 <script>
 export default {
-  name: "Header"
+  name: "TheFooter"
 }
 </script>
 
