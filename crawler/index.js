@@ -66,20 +66,20 @@ const csvRowToObjectCreditcard = function (row) {
 
 const insertToTransactionsCreditcard = function (values) {
     let db = new Database();
-    return db.query("INSERT IGNORE INTO TRANSACTIONS_CREDITCARD (text, text2, bookingRef, date, valuta, exchangeRate, value, currency, income, raw, hash) VALUES ?",
+    return db.query("INSERT IGNORE INTO transactions_creditcard (text, text2, bookingRef, date, valuta, exchangeRate, value, currency, income, raw, hash) VALUES ?",
         [values], function(err, result) {
         if (err) throw err;
-        }).then(result => console.log("[DB] TRANSACTIONS_CREDITCARD - Number of records inserted: " + result.affectedRows))
+        }).then(result => console.log("[DB] transactions_creditcard - Number of records inserted: " + result.affectedRows))
         .then(c => db.close());
 }
 
 const insertToTransactionsGiro = function (values) {
      let db = new Database();
-     return db.query("INSERT IGNORE INTO TRANSACTIONS_GIRO (text, info, date, valuta, type, oppositeIban, oppositeName, value, currency, income, raw, hash) VALUES ?",
+     return db.query("INSERT IGNORE INTO transactions_giro (text, info, date, valuta, type, oppositeIban, oppositeName, value, currency, income, raw, hash) VALUES ?",
          [values], function (err, result) {
              if (err) throw err;
              return true;
-          }).then(result => console.log("[DB] TRANSACTIONS_GIRO - Number of records inserted: " + result.affectedRows))
+          }).then(result => console.log("[DB] transactions_giro - Number of records inserted: " + result.affectedRows))
          .then(c => db.close());
 }
 
