@@ -1,0 +1,48 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id    Int     @id @default(autoincrement())
+  email String  @unique
+  name  String?
+}
+
+model TRANSACTIONS_GIRO {
+    id              Int     @id @default(autoincrement())
+    text            String
+    info            String
+    date            String
+    valuta          String
+    type            String
+    oppositeIban    String
+    oppositeName    String
+    value           Float
+    currency        String
+    income          Int
+    raw             String
+    hash            String  @unique
+}
+
+model TRANSACTIONS_CREDITCARD {
+    id              Int     @id @default(autoincrement())
+    text            String
+    text2           String
+    bookingRef      String
+    date            String
+    valuta          String
+    exchangeRate    Int
+    value           Float
+    currency        String
+    income          Int
+    raw             String
+    hash            String  @unique
+}

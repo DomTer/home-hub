@@ -1,0 +1,18 @@
+{
+  "private": true,
+  "scripts": {
+    "dev": "nuxi dev",
+    "build": "nuxi build",
+    "start": "node .output/server/index.mjs",
+    "preview": "nuxi preview"
+  },
+  "devDependencies": {
+    "nuxt3": "latest",
+    "prisma": "^3.10.0",
+    "pug": "^2.0.3"
+  },
+  "dependencies": {
+    "@prisma/client": "^3.10.0",
+    "vuetify": "^3.0.0-alpha.13"
+  }
+}

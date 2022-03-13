@@ -40,8 +40,8 @@ const csvRowToObjectGiro = function (row) {
         value: Number(row.Betrag.replace(/([.])/g, '').replace(/([,])/g, '.')),
         currency: row.Waehrung,
         income: !row.Betrag.match(/([-])/g),
-        _raw: JSON.stringify(row),
-        _hash: md5(JSON.stringify(row)),
+        raw: JSON.stringify(row),
+        hash: md5(JSON.stringify(row)),
     }
 }
 
@@ -59,14 +59,14 @@ const csvRowToObjectCreditcard = function (row) {
         // currency: row["Buchungsw\u00e4hrung"],
         currency: 'EUR',
         income: !row.Buchungsbetrag.match(/([-])/g),
-        _raw: JSON.stringify(row),
-        _hash: md5(JSON.stringify(row)),
+        raw: JSON.stringify(row),
+        hash: md5(JSON.stringify(row)),
     }
 }
 
 const insertToTransactionsCreditcard = function (values) {
     let db = new Database();
-    return db.query("INSERT IGNORE INTO TRANSACTIONS_CREDITCARD (text, text2, bookingRef, date, valuta, exchangeRate, value, currency, income, _raw, _hash) VALUES ?",
+    return db.query("INSERT IGNORE INTO TRANSACTIONS_CREDITCARD (text, text2, bookingRef, date, valuta, exchangeRate, value, currency, income, raw, hash) VALUES ?",
         [values], function(err, result) {
         if (err) throw err;
         }).then(result => console.log("[DB] TRANSACTIONS_CREDITCARD - Number of records inserted: " + result.affectedRows))
@@ -75,7 +75,7 @@ const insertToTransactionsCreditcard = function (values) {
 
 const insertToTransactionsGiro = function (values) {
      let db = new Database();
-     return db.query("INSERT IGNORE INTO TRANSACTIONS_GIRO (text, info, date, valuta, type, oppositeIban, oppositeName, value, currency, income, _raw, _hash) VALUES ?",
+     return db.query("INSERT IGNORE INTO TRANSACTIONS_GIRO (text, info, date, valuta, type, oppositeIban, oppositeName, value, currency, income, raw, hash) VALUES ?",
          [values], function (err, result) {
              if (err) throw err;
              return true;
