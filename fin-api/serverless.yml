@@ -1,0 +1,60 @@
+org: domter
+app: home-hub
+service: fin-api
+frameworkVersion: '2 || 3'
+
+custom:
+  giroTable: 'transactions-giro-${sls:stage}'
+  creditcardTable: 'transactions-creditcard-${sls:stage}'
+provider:
+  name: aws
+  region: eu-central-1
+  runtime: nodejs12.x
+  lambdaHashingVersion: '20201221'
+  iam:
+    role:
+      statements:
+        - Effect: Allow
+          Action:
+            - dynamodb:Query
+            - dynamodb:Scan
+            - dynamodb:GetItem
+            - dynamodb:PutItem
+            - dynamodb:UpdateItem
+            - dynamodb:DeleteItem
+          Resource:
+            - Fn::GetAtt: [ TransactionsGiroTable, Arn ]
+  environment:
+    TRANSACTIONS_GIRO: ${self:custom.giroTable}
+    TRANSACTIONS_CREDITCARD: ${self:custom.creditcardTable}
+
+functions:
+  api:
+    handler: handler.handler
+    events:
+      - httpApi: '*'
+
+resources:
+  Resources:
+    TransactionsGiroTable:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        AttributeDefinitions:
+          - AttributeName: _hash
+            AttributeType: N
+        KeySchema:
+          - AttributeName: _hash
+            KeyType: HASH
+        BillingMode: PAY_PER_REQUEST
+        TableName: ${self:custom.giroTable}
+    TransactionsCreditcardTable:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        AttributeDefinitions:
+          - AttributeName: _hash
+            AttributeType: N
+        KeySchema:
+          - AttributeName: _hash
+            KeyType: HASH
+        BillingMode: PAY_PER_REQUEST
+        TableName: ${self:custom.creditcardTable}
