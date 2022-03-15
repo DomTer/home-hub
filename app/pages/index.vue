@@ -1,26 +1,35 @@
 <template>
   <div>
-    <h1>{{ transactions }}</h1>
     <TransactionsTable :transactions="giroTransactions" />
     <TransactionsTable :transactions="creditcardTransactions" />
   </div>
 </template>
 
 <script>
+import { mapActions, mapGetters } from 'vuex'
+
 export default {
   name: 'IndexPage',
   data: () => ({
-    giroTransactions: [],
-    creditcardTransactions: [],
-  }),
-  async fetch() {
-    this.giroTransactions = await fetch(
-      '/api/giro'
-    ).then(res => res.json())
-    this.creditcardTransactions = await fetch(
-      '/api/creditcard'
-    ).then(res => res.json())
-  },
 
+  }),
+  computed: {
+    ...mapGetters({
+      giroTransactions: 'finance/giro/giroTransactions',
+      creditcardTransactions: 'finance/creditcard/creditcardTransactions'
+    }),
+
+  },
+  methods: {
+    ...mapActions({
+      fetchGiroTransactions: 'finance/giro/fetchGiroTransactions',
+      fetchCreditcardTransactions: 'finance/creditcard/fetchCreditcardTransactions'
+    }),
+
+  },
+  created() {
+    this.fetchGiroTransactions();
+    this.fetchCreditcardTransactions();
+  },
 }
 </script>
