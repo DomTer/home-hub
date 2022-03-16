@@ -1,0 +1,13 @@
+@import "variables";
+@import '~vuetify/src/styles/styles.sass';
+
+body {
+  background: $bg-main;
+}
+
+.text-positive {
+  color: $color-positive
+}
+.text-negative{
+  color: $color-negative
+}

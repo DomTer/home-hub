@@ -17,8 +17,8 @@ model transactions_giro {
   id           Int    @id @default(autoincrement())
   text         String
   info         String
-  date         String
-  valuta       String
+  date         DateTime
+  valuta       DateTime
   type         String
   oppositeIban String
   oppositeName String
@@ -34,8 +34,8 @@ model transactions_creditcard {
   text         String
   text2        String
   bookingRef   String
-  date         String
-  valuta       String
+  date         DateTime
+  valuta       DateTime
   exchangeRate Int
   value        Float
   currency     String

@@ -3,7 +3,7 @@ import colors from 'vuetify/es5/util/colors'
 export default {
 
   serverMiddleware: [
-    '~/api/index.ts'
+    '~/api/index.js'
   ],
 
   // Disable server-side rendering: https://go.nuxtjs.dev/ssr-mode
@@ -14,7 +14,7 @@ export default {
     titleTemplate: '%s - home-hub',
     title: 'home-hub',
     htmlAttrs: {
-      lang: 'en'
+      lang: 'de'
     },
     meta: [
       { charset: 'utf-8' },
@@ -29,6 +29,7 @@ export default {
 
   // Global CSS: https://go.nuxtjs.dev/config-css
   css: [
+    '~/assets/main.scss'
   ],
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins

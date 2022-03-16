@@ -7,12 +7,12 @@ const app = express()
 app.use(express.json())
 
 app.get('/giro', async (req, res) => {
-  const transactions = await prisma.transactions_giro.findMany()
+  const transactions = await prisma.transactions_giro.findMany();
   res.json(transactions)
 })
 
 app.get('/creditcard', async (req, res) => {
-  const transactions = await prisma.transactions_creditcard.findMany()
+  let transactions = await prisma.transactions_creditcard.findMany();
   res.json(transactions)
 })
 

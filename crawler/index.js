@@ -3,6 +3,7 @@ const kreditkarte = require('./kreditkarte');
 const girokonto = require('./girokonto');
 const {parseCsv} = require("./parse-csv");
 const {Database} = require('./db')
+const dayjs = require('dayjs')
 
 const type = function (buchungstext) {
     if (buchungstext.match('LASTSCHRIFT')) {
@@ -28,12 +29,20 @@ const type = function (buchungstext) {
     }
 }
 
+const formatDate = function (string) {
+    var euro_date = string;
+    euro_date = euro_date.split('.');
+    euro_date[2] = '20' + euro_date[2]
+    var us_date = euro_date.reverse().join('-');
+    return us_date
+}
+
 const csvRowToObjectGiro = function (row) {
     return {
         text: row.Verwendungszweck.replace(/\s\s+/g, ' ').trim(),
         info: row.Info.replace(/\s\s+/g, ' ').trim(),
-        date: row.Buchungstag,
-        valuta: row.Valutadatum,
+        date: formatDate(row.Buchungstag),
+        valuta: row.Valutadatum ? formatDate(row.Valutadatum) : formatDate(row.Buchungstag),
         type: type(row.Buchungstext),
         oppositeIban: row["Kontonummer/IBAN"],
         oppositeName: row["Beguenstigter/Zahlungspflichtiger"].replace(/\s\s+/g, ' ').trim(),
@@ -50,8 +59,8 @@ const csvRowToObjectCreditcard = function (row) {
         text: row.Transaktionsbeschreibung.replace(/\s\s+/g, ' ').trim(),
         text2: row['Transaktionsbeschreibung Zusatz'].replace(/\s\s+/g, ' ').trim(),
         bookingRef: Number(row.Buchungsreferenz),
-        date: row.Belegdatum,
-        valuta: row.Buchungsdatum,
+        date: formatDate(row.Belegdatum),
+        valuta: row.Buchungsdatum ? formatDate(row.Buchungsdatum) : formatDate(row.Belegdatum),
         // originalValue: Number(row.Originalbetrag.replace(/([.])/g, '').replace(/([,])/g, '.')),
         // originalCurrency: row["Originalw\u00e4hrung"],
         exchangeRate: Number(row.Umrechnungskurs.replace(/([.])/g, '').replace(/([,])/g, '.')),
