@@ -1,6 +1,11 @@
 @import "variables";
 @import '~vuetify/src/styles/styles.sass';
 
+* {
+  font-family: Roboto,sans-serif;
+  color: #bdc1c6;
+}
+
 body {
   background: $bg-main;
 }
@@ -10,4 +15,10 @@ body {
 }
 .text-negative{
   color: $color-negative
+}
+
+.fixedBottom {
+  position: fixed !important;
+  bottom: 0 !important;
+  width: 100%;
 }

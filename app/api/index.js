@@ -16,6 +16,35 @@ app.get('/creditcard', async (req, res) => {
   res.json(transactions)
 })
 
+app.get('/getPaymentsByCategory/:name', async (req, res) => {
+  let payments = await prisma.Payment.findMany({
+      where: {
+        categories: {
+          some: {
+              name: req.params.name,
+          },
+        },
+      },
+    });
+  return res.json(JSON.stringify(payments))
+})
+
+app.get('/payments', async (req, res) => {
+  let payments = await prisma.Payment.findMany(
+    {
+      include: {
+        categories: true
+      }
+    }
+  );
+  res.json(payments)
+})
+
+app.get('/payment-cats', async (req, res) => {
+  let paymentCats = await prisma.PaymentCategory.findMany();
+  res.json(paymentCats)
+})
+
 export default {
   path: '/api',
   handler: app

@@ -7,7 +7,6 @@
         v-model="search"
         append-icon="mdi-magnify"
         label="Search"
-        single-line
         hide-details
       ></v-text-field>
     </v-card-title>
@@ -45,7 +44,7 @@ export default {
         { text: 'Empfänger', value: 'Empfänger' },
         { text: 'Betrag', value: 'Betrag', align: 'right'},
         { text: 'Text', value: 'Text' },
-        { text: 'Konto', value: 'Konto' },
+        ///{ text: 'Konto', value: 'Konto' },
       ],
       search: '',
     }

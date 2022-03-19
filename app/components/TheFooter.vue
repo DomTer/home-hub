@@ -1,5 +1,5 @@
 <template>
-  <footer>
+  <footer class="fixedBottom">
     footer
   </footer>
 </template>
