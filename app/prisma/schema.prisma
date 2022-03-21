@@ -14,7 +14,7 @@ model User {
 }
 
 model transactions_giro {
-  id           Int    @id @default(autoincrement())
+  id           Int      @id @default(autoincrement())
   text         String
   info         String
   date         DateTime
@@ -26,11 +26,11 @@ model transactions_giro {
   currency     String
   income       Int
   raw          String
-  hash         String @unique
+  hash         String   @unique
 }
 
 model transactions_creditcard {
-  id           Int    @id @default(autoincrement())
+  id           Int       @id @default(autoincrement())
   text         String
   text2        String
   bookingRef   String
@@ -40,24 +40,50 @@ model transactions_creditcard {
   value        Float
   currency     String
   income       Int
-  raw          String @db.Text
-  hash         String @unique
+  raw          String    @db.Text
+  hash         String    @unique
 }
 
 model Payment {
-  text         String
-  text2        String
-  date         DateTime
-  type         String
-  oppositeIban String?
-  value        Float
-  hash         String @id
-  categories   PaymentCategory[] @relation(references: [id])
+  text               String
+  text2              String
+  date               DateTime
+  type               String
+  oppositeIban       String?
+  value              Float
+  hash               String            @id
+  categories         PaymentCategory[] @relation(references: [id])
+  invoice            Invoice?
 }
 
 model PaymentCategory {
-  id           Int    @id @default(autoincrement())
-  name         String
-  icon         String
-  payments     Payment[] @relation(references: [hash])
+  id       Int       @id @default(autoincrement())
+  name     String
+  icon     String
+  payments Payment[] @relation(references: [hash])
+}
+
+model RecurringInvoice {
+  id          Int       @id @default(autoincrement())
+  name        String
+  descr       String?   @db.Text
+  value       Float
+  rotation    Int
+  dueDay      Int?
+  activeStart DateTime  @default(now())
+  activeEnd   DateTime?
+  active      Boolean
+  invoices    Invoice[]
+}
+
+model Invoice {
+  id                 Int               @id @default(autoincrement())
+  name               String
+  descr              String?           @db.Text
+  value              Float
+  created            DateTime          @default(now())
+  recurringInvoice   RecurringInvoice? @relation(fields: [recurringInvoiceId], references: [id])
+  recurringInvoiceId Int?
+  payment            Payment?          @relation(fields: [paymentHash], references: [hash])
+  paymentHash        String?           @unique
 }

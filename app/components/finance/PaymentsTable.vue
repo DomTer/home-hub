@@ -1,8 +1,14 @@
 <template>
+  <div>
     <v-data-table
       :headers="headers"
-      :items="transactions"
+      :items="payments"
       :search="search"
+      item-key="hash"
+      @click:row="selectPayment"
+      :item-class="selectedRowClass"
+      :items-per-page="itemsPerPage || 15"
+      dense
     >
       <template v-slot:item.value="{ item }">
         <div
@@ -18,6 +24,7 @@
         {{ item.categories.length ? item.categories[0].name : 'keine' }}
       </template>
     </v-data-table>
+  </div>
 </template>
 
 <script>
@@ -38,6 +45,12 @@ export default {
     }
   },
   methods: {
+    selectPayment(row) {
+      this.selectedPayment = this.selectedPayment === row ? {} : row;
+    },
+    selectedRowClass(row) {
+      return this.selectedPayment.hash && this.selectedPayment.hash === row.hash ? 'v-data-table__selected' : '';
+    },
     toDate(dateString) {
       return new Date(dateString).toISOString().slice(0, 10)
     },
@@ -48,18 +61,29 @@ export default {
 
   computed: {
     ...mapGetters({
-      search: 'finance/payments/search'
+      search: 'finance/payments/search',
     }),
+
+    selectedPayment: {
+      get() {
+        return this.$store.state.finance.payments.selectedPayment
+      },
+      set(value) {
+        this.$store.commit('finance/payments/setSelectedPayment', value)
+      }
+    },
+
     originalHeaders() {
-        return Object.keys(this.transactions[0]).map(x => function () { return { text: x, value: x } })
+        return Object.keys(this.payments[0]).map(x => function () { return { text: x, value: x } })
     },
     sumLoss() {
-      return this.arrSum(this.transactions.map(p => p.value))
+      return this.arrSum(this.payments.map(p => p.value))
     }
   },
   props: {
-    transactions: Array,
+    payments: Array,
     headline: String,
+    itemsPerPage: Number,
   }
 }
 </script>

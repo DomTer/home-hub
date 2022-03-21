@@ -29,6 +29,16 @@ app.get('/getPaymentsByCategory/:name', async (req, res) => {
   return res.json(JSON.stringify(payments))
 })
 
+app.get('/invoices', async (req, res) => {
+  let invoices = await prisma.Invoice.findMany();
+  res.json(invoices)
+})
+
+app.get('/recurring-invoices', async (req, res) => {
+  let RecurringInvoices = await prisma.RecurringInvoice.findMany();
+  res.json(RecurringInvoices)
+})
+
 app.get('/payments', async (req, res) => {
   let payments = await prisma.Payment.findMany(
     {

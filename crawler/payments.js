@@ -15,9 +15,6 @@ const sql = `
                              oppositeIban,
                              value
                         FROM transactions_giro
-                        WHERE
-                            income = false AND
-                            oppositeIban not like '%9900484255'
                     )
                     UNION
                     (
@@ -30,8 +27,6 @@ const sql = `
                             NULL as oppositeIban,
                             value
                         FROM transactions_creditcard
-                        WHERE
-                            income = false
                     )
                     ORDER BY date)as Payments
         )
